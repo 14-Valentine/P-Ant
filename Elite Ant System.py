@@ -104,7 +104,7 @@ for it in range(iters):
 
     # สร้างทัวร์สำหรับมดแต่ละตัว (construct tour for each ant)
     for a in range(m):
-        start = 0                 # บังคับเริ่มที่เมือง 0 เพื่อเทียบกันง่าย (force start at city 0 for comparability)
+        start = np.random.randint(0,n)                 # บังคับเริ่มที่เมือง 0 เพื่อเทียบกันง่าย (force start at city 0 for comparability)
         current = start           # ตำแหน่งปัจจุบันของมด (current city)
         visited = [start]         # รายการเมืองที่เยี่ยมชมแล้ว (visited list)
         edges = []                # ขอบที่เดินผ่าน (visited edges)
