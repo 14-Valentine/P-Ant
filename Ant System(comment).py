@@ -12,8 +12,8 @@ random.seed(42)        # ตั้งค่า seed ของ random ให้�
 np.random.seed(42)     # ตั้งค่า seed ของ numpy ให้ผลซ้ำได้ (set numpy seed for reproducibility)
 
 n = 20                 # จำนวนเมือง (nodes) (number of cities/nodes)
-m = 10                 # จำนวนมด (ants) (number of ants)
-iters = 10             # จำนวนรอบใหญ่ (iterations) (number of global iterations)
+m = n                 # จำนวนมด (ants) (number of ants)
+iters = 100             # จำนวนรอบใหญ่ (iterations) (number of global iterations)
 alpha = 0.5            # ความสำคัญของฟีโรโมน (pheromone importance, α)
 beta = 0.5             # ความสำคัญของระยะทาง/การมองเห็น (visibility importance, β = 1/dist)
 rho = 0.5              # อัตราการระเหยฟีโรโมน (evaporation rate, ρ)
@@ -103,7 +103,7 @@ for it in range(iters):
 
     # สร้างทัวร์สำหรับมดแต่ละตัว (construct tour for each ant)
     for a in range(m):
-        start = 0                 # บังคับเริ่มที่เมือง 0 เพื่อเทียบกันง่าย (force start at city 0 for comparability)
+        start = np.random.randint(0,n)                 # บังคับเริ่มที่เมือง 0 เพื่อเทียบกันง่าย (force start at city 0 for comparability)
         current = start           # ตำแหน่งปัจจุบันของมด (current city)
         visited = [start]         # รายการเมืองที่เยี่ยมชมแล้ว (visited list)
         edges = []                # ขอบที่เดินผ่าน (visited edges)
