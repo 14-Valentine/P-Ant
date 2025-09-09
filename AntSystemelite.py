@@ -77,7 +77,8 @@ def run_aco_simulation(elite_weight_val):
     for it in range(iters): # Loop through iterations / วนลูปตามจำนวนรอบการทำงาน
         tau_snapshot = tau.copy() # Snapshot of pheromone matrix / สร้างสำเนาของเมทริกซ์ฟีโรโมน
         iter_data = {"ants_steps": [], "final_lengths": [],
-                     "gbest_tour_this_iter": gbest_tour} # Data for the current iteration / Dictionary สำหรับเก็บข้อมูลของรอบนี้
+                     "gbest_tour_this_iter": gbest_tour}
+        completed_lengths = []
 
         for a in range(m): # Loop through ants / วนลูปตามจำนวนมด
             start = np.random.randint(0, n) # Random start city / เมืองเริ่มต้นแบบสุ่ม
@@ -105,8 +106,13 @@ def run_aco_simulation(elite_weight_val):
                               "partial_len": partial_len})
                 iter_data["ants_steps"].append(steps)
                 iter_data["final_lengths"].append(partial_len)
+                completed_lengths.append(partial_len)
                 if partial_len < gbest_len:
                     gbest_len, gbest_tour = partial_len, visited.copy() # Update Global Best Tour / อัปเดต Global Best Tour
+
+        if completed_lengths:
+            best_idx = int(np.argmin(completed_lengths))
+            print(f"[ITER {it}] Best this iter: Ant {best_idx} L={completed_lengths[best_idx]:.4f}")
 
         iter_data["gbest_tour_this_iter"] = gbest_tour
         tau *= (1.0 - rho) # Pheromone evaporation / การระเหยของฟีโรโมน
@@ -123,6 +129,7 @@ def run_aco_simulation(elite_weight_val):
 
         iter_data["tau_after"] = tau.copy()
         all_rounds.append(iter_data)
+        
     return all_rounds
 
 # =================================================================
@@ -136,7 +143,11 @@ for ew in elite_weights_to_compare: # Loop to run simulation for each elite weig
     key = f"Elite_Weight_{ew}"
     if ew == 0.0:
         key = "Standard_ACO"
+    print(f"\n--- Running ACO with {key.replace('_', ' ')} ---")
     all_results[key] = run_aco_simulation(ew)
+    print("\nGLOBAL BEST:")
+    print(" Best tour (0-indexed):", all_results[key][-1]["gbest_tour_this_iter"])
+    print(" Best length:", tour_length_from_order(all_results[key][-1]["gbest_tour_this_iter"]))
 
 # Retrieve results for interactive plots (Standard ACO vs. a specific Elitist ACO)
 # ดึงผลลัพธ์สำหรับกราฟแบบโต้ตอบ (Standard ACO vs. Elitist ACO ที่ elite_weight=2.0)
@@ -158,18 +169,18 @@ overall_best_len_elite, overall_best_iter_elite = min(
     (tour_length_from_order(r['gbest_tour_this_iter']), i)
     for i, r in enumerate(all_rounds_elite))
 fig.suptitle(
-    "ACO Comparison (Scrollable Info Panels) / การเปรียบเทียบ ACO (แผงข้อมูลแบบเลื่อนได้)\n"
+    "ACO Comparison (Scrollable Info Panels)\n"
     f"Overall Best Standard: {overall_best_len_std:.4f} (found in iter {overall_best_iter_std}) | "
     f"Overall Best Elitist: {overall_best_len_elite:.4f} (found in iter {overall_best_iter_elite})",
     fontsize=14)
 max_steps = n + 1
 ax_iter = plt.axes([0.15, 0.1, 0.7, 0.03])
 ax_step = plt.axes([0.15, 0.05, 0.7, 0.03])
-slider_iter = Slider(ax_iter, 'Iteration / รอบ', 0, iters - 1, valinit=0,
+slider_iter = Slider(ax_iter, 'Iteration', 0, iters - 1, valinit=0,
                      valstep=1)
-slider_step = Slider(ax_step, 'Step / ขั้น', 0, max_steps - 1, valinit=0,
+slider_step = Slider(ax_step, 'Step', 0, max_steps - 1, valinit=0,
                      valstep=1)
-cmap = cm.get_cmap('tab10', m)
+cmap = plt.get_cmap('tab10', m)
 ANTS_TO_DISPLAY = 18
 scroll_offset_std = 0
 scroll_offset_elite = 0
