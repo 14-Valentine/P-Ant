@@ -320,7 +320,7 @@ if "Standard_ACO" in all_results and elite_runs_for_plot:
 fig_comp, axs_comp = plt.subplots(3, 1, figsize=(12, 15), sharex=True)
 fig_comp.suptitle("Performance Comparison by Elite Weight", fontsize=16)
 iters_range = np.arange(1, N_ITERATIONS + 1)
-colors = cm.viridis(np.linspace(0, 1, len(ELITE_WEIGHTS_TO_COMPARE)))
+colors = cm.plasma(np.linspace(0, 1, len(ELITE_WEIGHTS_TO_COMPARE)))
 
 for i, ew in enumerate(ELITE_WEIGHTS_TO_COMPARE):
     key = "Standard_ACO" if ew == 0.0 else f"Elite_Weight_{ew}"
