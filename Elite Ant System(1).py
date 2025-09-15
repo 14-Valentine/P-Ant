@@ -23,7 +23,7 @@ tau0  = 1.0            # initial pheromone τ0
 
 # IMPORTANT: 'elite_e' is NOT real ants; it's a weight that reinforces T+ (eq. (3) in paper).
 # You can match the figure in the paper: [0, 3, 5, 10, 30]
-elite_values = [0, 3, 5, 10, 15, 20]
+elite_values = [0, 1, 2, 3, 4, 5]
 
 # -------------------------
 # Build a random TSP instance (positions, distances, τ, η)

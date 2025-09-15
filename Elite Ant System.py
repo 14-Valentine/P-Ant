@@ -14,7 +14,7 @@ np.random.seed(42)     # ตั้งค่า seed ของ numpy ให้ผ
 n = 20                 # จำนวนเมือง (nodes) (number of cities/nodes)
 m = n                  # จำนวนมด (ants) (number of ants)
 elite_e = 5            # จำนวนมดเอลิท (elitist weight e) — 0 = ปิด, >0 = เปิด Elite Ants
-iters = 10             # จำนวนรอบใหญ่ (iterations) (number of global iterations)
+iters = 100             # จำนวนรอบใหญ่ (iterations) (number of global iterations)
 alpha = 0.5            # ความสำคัญของฟีโรโมน (pheromone importance, α)
 beta = 0.5             # ความสำคัญของระยะทาง/การมองเห็น (visibility importance, β = 1/dist)
 rho = 0.5              # อัตราการระเหยฟีโรโมน (evaporation rate, ρ)
