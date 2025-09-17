@@ -21,7 +21,7 @@ TAU0 = 1.0                      # Initial pheromone level | ระดับฟ�
 # --- Experiment Parameters | พารามิเตอร์สำหรับการทดลอง ---
 # We will compare standard ACO (elite_weight=0) with EAS using different weights.
 # เราจะเปรียบเทียบ ACO แบบมาตรฐาน (elite_weight=0) กับ EAS ที่มีค่าน้ำหนักแตกต่างกัน
-ELITE_WEIGHTS_TO_COMPARE = [0.0, 3.0, 5.0, 7.0]
+ELITE_WEIGHTS_TO_COMPARE = [0.0, 3.0, 5.0]
 
 # --- Reproducibility | การกำหนดค่าเริ่มต้นเพื่อผลลัพธ์ที่ตรงกัน ---
 RANDOM_SEED = 42
@@ -195,8 +195,6 @@ for ew in ELITE_WEIGHTS_TO_COMPARE:
     all_results[key] = run_aco_simulation(ew)
     final_best_len = get_tour_length(all_results[key][-1]["gbest_tour_this_iter"])
     print(f"\nGLOBAL BEST FOUND: Length = {final_best_len:.4f}")
-
-
 
 # --- Create comparative summary plots | สร้างกราฟสรุปผลการเปรียบเทียบ ---
 fig_comp, axs_comp = plt.subplots(3, 1, figsize=(12, 15), sharex=True)
