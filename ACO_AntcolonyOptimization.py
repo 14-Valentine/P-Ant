@@ -100,14 +100,14 @@ def run_aco_simulation(elite_weight_val):
     # --- Main Algorithm Loop | ลูปหลักของอัลกอริทึม ---
     for it in range(N_ITERATIONS):
         pheromone_snapshot = pheromone_matrix
-        iteration_data = {"tours": [], "tour_lengths": [], "ants_steps": []}
+        iteration_data = {"tours": [], "tour_lengths": []}
 
         # --- Phase 1: Tour Construction | เฟสที่ 1: การสร้างเส้นทางของมดแต่ละตัว ---
         for _ in range(N_ANTS):
             # Each ant starts at a random city | มดแต่ละตัวเริ่มจากเมืองสุ่ม
             start_city = np.random.randint(0, N_CITIES)
             visited_cities = [start_city]
-            edges, partial_len, steps = [], 0.0, [{"visited": [start_city], "edges": [], "partial_len": 0.0}]
+            partial_len = 0.0
 
             # Sequentially build a tour by choosing the next city | สร้างเส้นทางไปทีละขั้น
             while len(visited_cities) < N_CITIES:
@@ -118,15 +118,11 @@ def run_aco_simulation(elite_weight_val):
                 probs = calculate_transition_probs(current, allowed, pheromone_snapshot)
                 next_city = random.choices(allowed, weights=probs, k=1)[0]
                 
-                edges.append((current, next_city))
                 partial_len += DISTANCE_MATRIX[current, next_city]
                 visited_cities.append(next_city)
-                steps.append({"visited": visited_cities.copy(), "edges": edges.copy(), "partial_len": partial_len})
 
             # Complete the tour by returning to the start city | กลับสู่เมืองเริ่มต้นเพื่อปิดเส้นทาง
-            edges.append((visited_cities[-1], visited_cities[0]))
             partial_len += DISTANCE_MATRIX[visited_cities[-1], visited_cities[0]]
-            steps.append({"visited": visited_cities.copy(), "edges": edges.copy(), "partial_len": partial_len})
             
             # Store the completed tour and its length | บันทึกเส้นทางและความยาว
             iteration_data["tours"].append(visited_cities)
