@@ -99,7 +99,7 @@ def run_aco_simulation(elite_weight_val):
 
     # --- Main Algorithm Loop | ลูปหลักของอัลกอริทึม ---
     for it in range(N_ITERATIONS):
-        pheromone_snapshot = pheromone_matrix.copy()
+        pheromone_snapshot = pheromone_matrix
         iteration_data = {"tours": [], "tour_lengths": [], "ants_steps": []}
 
         # --- Phase 1: Tour Construction | เฟสที่ 1: การสร้างเส้นทางของมดแต่ละตัว ---
@@ -169,7 +169,6 @@ def run_aco_simulation(elite_weight_val):
         all_iterations_data.append({
             "gbest_tour_this_iter": global_best_tour,
             "final_lengths": iteration_data["tour_lengths"],
-            "ants_steps": iteration_data["ants_steps"],
             "tau_after": pheromone_matrix.copy()
         })
         
